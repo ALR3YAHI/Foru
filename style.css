@@ -1,0 +1,122 @@
+:root {
+    --box-size: 180px;
+    --pink-glow: #ff79ac;
+    --deep-pink: #ff007f;
+    --party-pink-bg: #ffc0cb;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #1a0210;
+    background-image: radial-gradient(circle at top left, rgba(255, 0, 127, 0.3), transparent 40%),
+                      radial-gradient(circle at bottom right, rgba(255, 121, 172, 0.3), transparent 50%);
+    transition: background-color 2s ease-in-out;
+    font-family: 'Cairo', sans-serif;
+}
+
+body.celebration {
+    background-color: var(--party-pink-bg);
+}
+
+#world {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+}
+
+/* --- Main Scene and Camera Control --- */
+.scene {
+    position: relative;
+    transform-style: preserve-3d;
+    animation: float-gently 8s infinite ease-in-out;
+    transition: transform 2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+.scene.zoom-in {
+    /* This is the "camera flight" animation */
+    transform: scale(1.8) translateY(-10%);
+}
+
+/* --- Crystal Box & Heart (Styling is similar, but animations are new) --- */
+.crystal-box {
+    width: var(--box-size);
+    height: var(--box-size);
+    transform-style: preserve-3d;
+    transform: rotateX(-15deg) rotateY(-30deg);
+    cursor: pointer;
+}
+.face {
+    position: absolute;
+    width: var(--box-size);
+    height: var(--box-size);
+    background: rgba(255, 192, 203, 0.1);
+    border: 1px solid var(--pink-glow);
+    box-shadow: 0 0 15px var(--pink-glow), inset 0 0 10px var(--pink-glow);
+    backdrop-filter: blur(8px);
+    transition: all 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+/* This class makes the faces fly away */
+.crystal-box.open .face { transform: scale(2); opacity: 0; }
+.front  { transform: translateZ(calc(var(--box-size) / 2)); }
+.back   { transform: rotateY(180deg) translateZ(calc(var(--box-size) / 2)); }
+.right  { transform: rotateY(90deg) translateZ(calc(var(--box-size) / 2)); }
+.left   { transform: rotateY(-90deg) translateZ(calc(var(--box-size) / 2)); }
+.top    { transform: rotateX(90deg) translateZ(calc(var(--box-size) / 2)); }
+.bottom { transform: rotateX(-90deg) translateZ(calc(var(--box-size) / 2)); }
+
+.heart-container {
+    position: absolute;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    animation: rotate-heart 10s infinite linear;
+    transition: transform 2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+/* This class stops the rotation and makes the heart face the camera */
+.heart-container.face-camera {
+    animation: none; /* stop the idle rotation */
+    transform: rotateY(0deg);
+}
+/* This class adds the final beating animation */
+.heart-container.beating {
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.heart-3d { position: absolute; top: 50%; left: 50%; width: 60px; height: 60px; transform: translate(-50%, -50%); transform-style: preserve-d; }
+.heart-3d::before, .heart-3d::after { content: ''; position: absolute; top: 0; left: 30px; width: 30px; height: 50px; background: var(--deep-pink); border-radius: 30px 30px 0 0; transform: rotate(-45deg); transform-origin: 0 100%; box-shadow: 0 0 20px var(--deep-pink); }
+.heart-3d::after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+
+.prompt-text { position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%); color: #fff; text-shadow: 0 0 10px var(--pink-glow); animation: pulse-text 3s infinite; transition: opacity 0.5s; z-index: 100; }
+.prompt-text.hidden { opacity: 0; }
+
+/* --- Final Message & Typewriter --- */
+.message-container {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, calc(var(--box-size) * 0.5)); /* Position below the heart */
+    width: 300px;
+    text-align: center;
+    color: #333;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.message-container.visible { opacity: 1; }
+.message-container h1 { font-size: 2.2rem; color: #d14f69; min-height: 45px; margin: 0; }
+.message-container p { font-size: 1.1rem; min-height: 28px; margin-top: 10px; }
+.typing-cursor { border-right: 4px solid #d14f69; animation: blink-cursor 0.7s step-end infinite; }
+
+/* --- Keyframes --- */
+@keyframes float-gently { 50% { transform: translateY(-20px) rotateX(0) rotateY(0); } }
+@keyframes rotate-heart { to { transform: rotateY(360deg); } }
+@keyframes pulse-text { 50% { opacity: 0.7; } }
+@keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+@keyframes blink-cursor { from, to { border-color: transparent; } 50% { border-color: #d14f69; } }
+
+#party-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+/* Responsive */
+@media (max-width: 600px) {
+    .message-container h1 { font-size: 1.8rem; min-height: 40px; }
+    .message-container p { font-size: 1rem; min-height: 25px; }
+}

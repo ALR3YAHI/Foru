@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Magical Surprise for Layan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="party-canvas"></canvas>
+
+    <div id="world">
+        <div class="scene" id="scene">
+            <div class="crystal-box" id="crystalBox">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+                
+                <div class="heart-container" id="heartContainer">
+                    <div class="heart-3d"></div>
+                </div>
+            </div>
+
+            <div class="message-container" id="messageContainer">
+                <h1 id="main-message"></h1>
+                <p id="sub-message"></p>
+            </div>
+        </div>
+        
+        <div class="prompt-text" id="promptText">اضغطي على الصندوق</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
