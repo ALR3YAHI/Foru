@@ -7,8 +7,8 @@ const promptText = document.getElementById('promptText');
 const partyCanvas = document.getElementById('party-canvas');
 
 // The main text for the typewriter
-const mainMessageText = "كل عام وأنتِ بخير يا أحلى مهندسة ليان";
-const subMessageText = "أتمنى لكِ سنة مليئة بالنجاح والسعادة 💖";
+const mainMessageText = "لولو القمررررررر";
+const subMessageText = "بحبك كثييير ويارب تكوني دايما بخير 💖";
 
 // --- Typewriter Function ---
 function typewriter(element, text, speed, callback) {
@@ -90,4 +90,5 @@ function startParty() {
             requestAnimationFrame(frame);
         }
     }());
+
 }
